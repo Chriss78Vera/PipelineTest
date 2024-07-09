@@ -23,9 +23,12 @@ jobs:
         node-version: '20'
     - name: Install dependencies
       run: npm install
-      
+
     - name: Lint code
       run: npm run lint
+
+    - name: Format code
+      run: npm run format
 
     - name: Run tests
       run: npm test -- --watchAll=false
