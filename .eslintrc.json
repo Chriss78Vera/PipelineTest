@@ -1,17 +1,29 @@
 {
+    "parser": "@babel/eslint-parser",
     "extends": [
       "eslint:recommended",
+      "plugin:react/recommended",
       "plugin:prettier/recommended"
     ],
     "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
       "ecmaVersion": 12,
-      "sourceType": "module"
+      "sourceType": "module",
+      "requireConfigFile": false
     },
     "env": {
       "browser": true,
       "es2021": true,
       "jest": true
     },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "ignorePatterns": ["**/*.test.js", "**/__test__/*.js"],  // Omitir archivos de prueba
     "rules": {
       "prettier/prettier": "error"
     }
