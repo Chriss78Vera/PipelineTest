@@ -1,23 +1,21 @@
-name: CI Pipeline
+name: CI Pipeline - Develop
 
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    # Clonación del Repositorio
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    # Instalación de Dependencias
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
@@ -25,16 +23,20 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    # Pruebas Unitarias
     - name: Run tests
       run: npm test -- --watchAll=false
 
-    # Generar informes de cobertura (opcional)
     - name: Generate coverage report
       run: npm test -- --coverage
 
-    # Subir informe de cobertura a Codecov (opcional)
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Trigger main branch workflow
+      if: success()
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        event-type: promote-to-production
