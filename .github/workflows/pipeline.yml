@@ -15,26 +15,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        ref: develop
+        ref: main
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
         node-version: '20'
+
     - name: Install dependencies
       run: npm install
-
-    - name: Lint code
-      run: npm run lint
-
-    - name: Format code
-      run: npm run format
-
-    - name: Run tests
-      run: npm test -- --watchAll=false
-
-    - name: Generate coverage report
-      run: npm test -- --coverage
 
     - name: Configure git
       run: |
@@ -48,12 +37,31 @@ jobs:
       run: git checkout main
 
     - name: Merge develop into main
-      run: git pull develop 
+      run: |
+        git pull origin develop
+        git reset HEAD .github/workflows/main.yml
+        git add .github/workflows/main.yml
+        git commit -m "Merge develop into main without changing main.yml" || echo "No changes to commit"
 
     - name: Push changes to main
       run: git push origin main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install dependencies (again)
+      run: npm install
+
+    - name: Lint code
+      run: npm run lint
+
+    - name: Format code
+      run: npm run format
+
+    - name: Run tests
+      run: npm test -- --watchAll=false
+
+    - name: Generate coverage report
+      run: npm test -- --coverage
 
     - name: Build artifact
       run: npm run build
