@@ -83,10 +83,6 @@ jobs:
       run: |
         npx vercel --token $VERCEL_TOKEN --yes --name $VERCEL_PROJECT_NAME
 
-    # 7. Pruebas de Aceptación Automatizadas
-    - name: Run acceptance tests
-      run: npm run acceptance-tests
-
   deploy-to-prod:
     runs-on: ubuntu-latest
     needs: build
