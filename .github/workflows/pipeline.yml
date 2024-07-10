@@ -38,7 +38,7 @@ jobs:
 
     - name: Merge develop into main
       run: |
-        git pull origin develop --allow-unrelated-histories
+        git pull origin dev --allow-unrelated-histories
         git reset HEAD .github/workflows/main.yml
         git add .github/workflows/main.yml
         git commit -m "Merge develop into main without changing main.yml" || echo "No changes to commit"
