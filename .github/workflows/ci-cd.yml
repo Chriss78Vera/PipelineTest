@@ -14,9 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # 1. Clonación del Repositorio
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    # 2. Instalación de Dependencias
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
@@ -25,34 +27,42 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    # 4. Análisis de Código Estático
     - name: Lint code
       run: npm run lint
 
+    # 4. Análisis de Código Estático (formateo de código)
     - name: Format code
       run: npm run format
 
+    # 3. Pruebas Unitarias
     - name: Run tests
       run: npm test -- --watchAll=false
 
+    # 3. Generar informe de cobertura
     - name: Generate coverage report
       run: npm test -- --coverage
 
+    # 3. Subir informe de cobertura a Codecov
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
 
+    # 5. Construcción del Artefacto
     - name: Build application
       run: npm run build
 
-  deploy:
+  deploy-to-test:
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/dev'
     steps:
+    # 1. Clonación del Repositorio
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    # 2. Instalación de Dependencias
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
@@ -61,9 +71,41 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    # 5. Construcción del Artefacto (continuación)
     - name: Build application
       run: npm run build
 
+    # 6. Despliegue en un Entorno de Pruebas
+    - name: Deploy to Test Environment
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME_TEST }}
+      run: |
+        npx vercel --token $VERCEL_TOKEN --yes --name $VERCEL_PROJECT_NAME
+
+  deploy-to-prod:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+    # 1. Clonación del Repositorio
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # 2. Instalación de Dependencias
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    # 5. Construcción del Artefacto (continuación)
+    - name: Build application
+      run: npm run build
+
+    # 8. Despliegue en Producción
     - name: Deploy to Vercel
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
