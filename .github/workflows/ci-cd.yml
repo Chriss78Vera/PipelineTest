@@ -79,7 +79,7 @@ jobs:
     - name: Deploy to Test Environment
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME_TEST }}
+        VERCEL_PROJECT_NAME_TEST: ${{ secrets.VERCEL_PROJECT_NAME_TEST }}
       run: |
         npx vercel --token $VERCEL_TOKEN --yes --name $VERCEL_PROJECT_NAME_TEST
 
