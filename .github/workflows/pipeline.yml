@@ -36,7 +36,7 @@ jobs:
     - name: Checkout main branch
       run: git checkout main
 
-    - name: Merge develop into main
+    - name: Pull develop into main
       run: |
         git pull origin develop
         git reset HEAD .github/workflows/main.yml
