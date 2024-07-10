@@ -7,7 +7,6 @@ on:
       - main
   pull_request:
     branches:
-      - dev
       - main
 
 jobs:
@@ -68,5 +67,6 @@ jobs:
     - name: Deploy to Vercel
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME }}
       run: |
-        npx vercel --prod --token $VERCEL_TOKEN --confirm
+        npx vercel --prod --token $VERCEL_TOKEN --yes --name $VERCEL_PROJECT_NAME
