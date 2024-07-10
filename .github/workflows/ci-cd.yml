@@ -79,9 +79,13 @@ jobs:
     - name: Deploy to Test Environment
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        VERCEL_PROJECT_NAME_TEST: ${{ secrets.VERCEL_PROJECT_NAME_TEST }}
+        VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME_TEST }}
       run: |
-        npx vercel --token $VERCEL_TOKEN --yes --name $VERCEL_PROJECT_NAME_TEST
+        npx vercel --token $VERCEL_TOKEN --yes --name $VERCEL_PROJECT_NAME
+
+    # 7. Pruebas de Aceptación Automatizadas
+    - name: Run acceptance tests
+      run: npm run acceptance-tests
 
   deploy-to-prod:
     runs-on: ubuntu-latest
@@ -109,6 +113,6 @@ jobs:
     - name: Deploy to Vercel
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME }}
+        VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME_PROD }}
       run: |
         npx vercel --prod --token $VERCEL_TOKEN --yes --name $VERCEL_PROJECT_NAME
