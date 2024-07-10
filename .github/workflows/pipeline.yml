@@ -36,9 +36,9 @@ jobs:
     - name: Checkout main branch
       run: git checkout main
 
-    - name: Pull develop into main
+    - name: Merge develop into main
       run: |
-        git pull origin develop
+        git pull --no-rebase origin develop
         git reset HEAD .github/workflows/main.yml
         git add .github/workflows/main.yml
         git commit -m "Merge develop into main without changing main.yml" || echo "No changes to commit"
