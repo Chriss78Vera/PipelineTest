@@ -39,7 +39,7 @@ jobs:
     - name: Configure git
       run: |
         git config --global user.email "chrissvera75@gmail.com"
-        git config --global user.name "Your Chriss78Vera"
+        git config --global user.name "Chriss78Vera"
 
     - name: Fetch all branches
       run: git fetch --all
@@ -48,7 +48,7 @@ jobs:
       run: git checkout main
 
     - name: Merge develop into main
-      run: git merge develop --allow-unrelated-histories
+      run: git pull develop 
 
     - name: Push changes to main
       run: git push origin main
