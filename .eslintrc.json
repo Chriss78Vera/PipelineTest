@@ -25,7 +25,9 @@
     },
     "ignorePatterns": ["**/*.test.js", "**/__test__/*.js"],  // Omitir archivos de prueba
     "rules": {
-      "prettier/prettier": "error"
+      "prettier/prettier": "off",
+      "react/react-in-jsx-scope": "off"
+      
     }
   }
   
