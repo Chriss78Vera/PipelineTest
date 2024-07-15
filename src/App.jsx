@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Hola a todos, completado de PipeLines! <code>src/App.js</code>.
+          Hola a todos, completado de PipeLines - Presentacion! <code>src/App.js</code>.
         </p>
         <a
           className="App-link"
